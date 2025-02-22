@@ -1,5 +1,5 @@
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Nicole Kozuch / Section 002 ***
  *
  * This java file contains several simple tree problems that need to be
  * codified. These routines  must use the TreeMap and TreeSet library
@@ -20,14 +20,18 @@ public class TreeProblems {
    */
   
   public static Set<Integer> different(Set<Integer> setA, Set<Integer> setB) {
+    // Create new temporary set with all elements of setA and setB
+    Set<Integer> combinedElements = new HashSet<>(setA);
+    combinedElements.addAll(setB);
 
-    // INSERT CODE HERE - DO NOT FORGET TO PLACE YOUR NAME ABOVE
-    //
-    // This can be done numerous ways, but once such will only that
-    // *several* lines of code. Hint: create two temporary TreeSets and utilize the
-    // methods retainAll(), addAll(), and removeAll(). But in the end, get something to work.
+    // Create new temporary set with elements only found in both sets
+    Set<Integer> sharedElements = new HashSet<>(setA);
+    sharedElements.retainAll(setB);
 
-    return setA;
+    // Get the elements not present in both sets
+    combinedElements.removeAll(sharedElements);
+
+    return combinedElements;
   }
 
 
@@ -39,10 +43,20 @@ public class TreeProblems {
    */
 
   public static void removeEven(Map<Integer, String> treeMap) {
+    // Create array to store even keys to be deleted
+    ArrayList<Integer> removedKeys = new ArrayList<>();
+    for (Map.Entry<Integer, String> mapElement : treeMap.entrySet()) {
+      int key = (int) mapElement.getKey();
+      // Find even keys
+        if (key % 2 == 0) {
+            removedKeys.add(key);
+        }
+    }
 
-    // INSERT CODE HERE.
-
-    return;
+    // Remove all even keys from treeMap
+    for (Integer key : removedKeys) {
+      treeMap.remove(key);
+    }
   }
 
 
@@ -54,11 +68,8 @@ public class TreeProblems {
    */
 
   public boolean treesEqual(Map<Integer, String> tree1,Map<Integer, String> tree2 ) {
-
-    // INSERT CODE HERE
-
-    return false;
-
+    // Returns the direct comparison of the two treeMaps
+    return tree1.equals(tree2);
   }
 
 } // end treeProblems class

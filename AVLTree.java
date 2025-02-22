@@ -1,6 +1,6 @@
 
 /*
- * *** YOUR NAME GOES HERE / YOUR SECTION NUMBER ***
+ * *** Nicole Kozuch / Section 002 ***
  *
  * This java file is a Java object implementing simple AVL Tree.
  * You are to complete the deleteElement method.
@@ -342,25 +342,47 @@ class LUC_AVLTree {
      */
 
     private Node deleteElement(int value, Node node) {
+        // Ensures tree is not empty
+        if (node != null) {
+            // Recursively searches for node to delete in left- and right- subtrees
+            if (value < node.value) {
+                node.leftChild = deleteElement(value, node.leftChild);
+            } else if (value > node.value) {
+                node.rightChild = deleteElement(value, node.rightChild);
+            } else {
+                if (node.leftChild == null) {
+                    return node.rightChild;
+                } else if (node.rightChild == null) {
+                    return node.leftChild;
+                } else {
+                    // Gets in-order succession node to delete
+                    Node tempNode = minValueNode(node.rightChild);
+                    node.value = tempNode.value;
+                    node.rightChild = deleteElement(tempNode.value, node.rightChild);
+                }
+            }
 
-        /*
-         * ADD CODE HERE
-         * 
-         * NOTE, that you should use the existing coded private methods
-         * in this file, which include:
-         *      - minValueNode,
-         *      - getMaxHeight,
-         *      - getHeight,
-         *      - getBalanceFactor,
-         *      - LLRotation
-         *      - RRRotation,
-         *      - LRRotation,
-         *      - RLRotation.
-         *
-         * To understand what each of these methods do, see the method prologues and
-         * code for each. You can also look at the method InsertElement, as it has do
-         * do many of the same things as this method.
-         */
+            // Recalculates the height of node
+            node.height = getMaxHeight(getHeight(node.leftChild), getHeight(node.rightChild)) + 1;
+            int balance = getBalanceFactor(node);
+
+            // Rebalances node based on balance factor
+            if (balance > 1) {
+                if (getBalanceFactor(node.leftChild) >= 0) {
+                    return LLRotation(node);
+                } else {
+                    return LRRotation(node);
+                }
+            }
+
+            if (balance < -1) {
+                if (getBalanceFactor(node.rightChild) <= 0) {
+                    return RRRotation(node);
+                } else {
+                    return RLRotation(node);
+                }
+            }
+        }
 
         return node;
     }
